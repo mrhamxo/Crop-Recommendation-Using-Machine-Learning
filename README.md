@@ -1,4 +1,5 @@
 # Crop Recommendation Using Machine Learning
+**Live Project:** [AI-Based Crop Recommendation](https://crops-recommendation.streamlit.app/)
 
 Precision agriculture is rapidly transforming farming practices by enabling farmers to make informed decisions about their farming strategies. This project leverages machine learning to recommend the most suitable crops to grow based on specific soil and weather conditions.
 
