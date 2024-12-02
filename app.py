@@ -5,7 +5,6 @@ import pickle
 # Load the models and scalers
 model = pickle.load(open('model/gnb_model.pkl', 'rb'))
 sc = pickle.load(open('model/standardscaler.pkl', 'rb'))
-#mx = pickle.load(open('model/minmaxscaler.pkl', 'rb'))
 
 # Crop dictionary for prediction interpretation
 crop_dict = {
@@ -19,14 +18,21 @@ crop_dict = {
 st.title("Crop Prediction Application")
 st.markdown("### Enter the details below to predict the best crop for cultivation")
 
-# Input fields
-N = st.number_input("Nitrogen Content", min_value=0.0, format="%.6f")
-P = st.number_input("Phosphorus Content", min_value=0.0, format="%.6f")
-K = st.number_input("Potassium Content", min_value=0.0, format="%.6f")
-temp = st.number_input("Temperature (°C)", min_value=-50.0, max_value=50.0, format="%.6f")
-humidity = st.number_input("Humidity (%)", min_value=0.0, max_value=100.0, format="%.6f")
-ph = st.number_input("Soil pH Level", min_value=0.0, max_value=14.0, format="%.6f")
-rainfall = st.number_input("Rainfall (mm)", min_value=0.0, format="%.6f")
+# Create two columns for input fields
+col1, col2 = st.columns(2)
+
+# Input fields in the first column
+with col1:
+    N = st.number_input("Nitrogen Content", min_value=0.0, format="%.2f")
+    P = st.number_input("Phosphorus Content", min_value=0.0, format="%.2f")
+    K = st.number_input("Potassium Content", min_value=0.0, format="%.2f")
+    temp = st.number_input("Temperature (°C)", min_value=-50.0, max_value=50.0, format="%.2f")
+
+# Input fields in the second column
+with col2:
+    humidity = st.number_input("Humidity (%)", min_value=0.0, max_value=100.0, format="%.2f")
+    ph = st.number_input("Soil pH Level", min_value=0.0, max_value=14.0, format="%.2f")
+    rainfall = st.number_input("Rainfall (mm)", min_value=0.0, format="%.2f")
 
 # Predict button
 if st.button("Predict Best Crop"):
@@ -34,8 +40,7 @@ if st.button("Predict Best Crop"):
     feature_list = [N, P, K, temp, humidity, ph, rainfall]
     single_pred = np.array(feature_list).reshape(1, -1)
     
-    # Scale the features using MinMaxScaler and StandardScaler
-    #mx_features = mx.transform(single_pred)
+    # Scale the features using StandardScaler
     sc_mx_features = sc.transform(single_pred)
     
     # Make the prediction
